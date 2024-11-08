@@ -1,0 +1,97 @@
+﻿@model ContactForm
+
+@* @inject Microsoft.Extensions.Options.IOptions<GoogleReCAPTCHA> ReCaptchaConfig *@
+@{
+    Layout = null;
+}
+
+
+
+<section id="contact" class="contact section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Contact</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+    </div><!-- End Section Title -->
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+
+            <div class="col-lg-5">
+
+                <div class="info-wrap">
+                    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="200">
+                        <i class="bi bi-geo-alt flex-shrink-0"></i>
+                        <div>
+                            <h3>Address</h3>
+                            <p>A108 Adam Street, New York, NY 535022</p>
+                        </div>
+                    </div><!-- End Info Item -->
+
+                    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
+                        <i class="bi bi-telephone flex-shrink-0"></i>
+                        <div>
+                            <h3>Call Us</h3>
+                            <p>+1 5589 55488 55</p>
+                        </div>
+                    </div><!-- End Info Item -->
+
+                    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
+                        <i class="bi bi-envelope flex-shrink-0"></i>
+                        <div>
+                            <h3>Email Us</h3>
+                            <p>info@example.com</p>
+                        </div>
+                    </div><!-- End Info Item -->
+
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d48389.78314118045!2d-74.006138!3d40.710059!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a22a3bda30d%3A0xb89d1fe6bc499443!2sDowntown%20Conference%20Center!5e0!3m2!1sen!2sus!4v1676961268712!5m2!1sen!2sus" frameborder="0" style="border:0; width: 100%; height: 270px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <form asp-controller="Home" asp-action="ContactForm" method="post" class="php-email-form" id="contactForm">
+                    <div class="row gy-4">
+                        <div class="col-md-6">
+                            <label for="name-field" class="pb-2">Adı Soyad</label>
+                            <input asp-for="Name" id="name-field" class="form-control" required />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="email-field" class="pb-2">E-posta</label>
+                            <input asp-for="Email" id="email-field" class="form-control" required />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="subject-field" class="pb-2">Konu</label>
+                            <input asp-for="Subject" id="subject-field" class="form-control" required />
+                            <span asp-validation-for="Subject" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="message-field" class="pb-2">Mesaj</label>
+                            <textarea asp-for="Message" rows="10" id="message-field" class="form-control" required></textarea>
+                            <span asp-validation-for="Message" class="text-danger"></span>
+                        </div>
+
+                        <!-- reCAPTCHA token'ı için gizli alan -->
+                        @* <input type="hidden" id="recaptchaToken" name="RecaptchaToken" /> *@
+
+                        <div class="col-md-12 text-center">
+                            <div class="loading" style="display:none;">Yükleniyor...</div>
+                            <div class="error-message"></div> <!-- Hata mesajı -->
+                            <div class="sent-message" style="display:none;">Mesajınız başarıyla gönderildi.</div> <!-- Başarı mesajı -->
+                            <button type="submit">Mesaj Gönder</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/assets/vendor/php-email-form/validate.js"></script>
+
+@* <script src="https://www.google.com/recaptcha/api.js?render=@ReCaptchaConfig.Value.SiteKey"></script> *@
