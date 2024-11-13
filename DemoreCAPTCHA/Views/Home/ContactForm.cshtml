@@ -1,4 +1,5 @@
 ﻿@model ContactForm
+@addTagHelper *, Owl.reCAPTCHA
 
 @* @inject Microsoft.Extensions.Options.IOptions<GoogleReCAPTCHA> ReCaptchaConfig *@
 @{
@@ -77,13 +78,13 @@
                         </div>
 
                         <!-- reCAPTCHA token'ı için gizli alan -->
-                        @* <input type="hidden" id="recaptchaToken" name="RecaptchaToken" /> *@
+                        <input type="hidden" id="recaptchaToken" name="RecaptchaToken" />
 
                         <div class="col-md-12 text-center">
                             <div class="loading" style="display:none;">Yükleniyor...</div>
                             <div class="error-message"></div> <!-- Hata mesajı -->
                             <div class="sent-message" style="display:none;">Mesajınız başarıyla gönderildi.</div> <!-- Başarı mesajı -->
-                            <button type="submit">Mesaj Gönder</button>
+                            <button type="submit" id="submitBtn">Mesaj Gönder</button>
                         </div>
                     </div>
                 </form>
@@ -94,4 +95,12 @@
 
 <script src="~/assets/vendor/php-email-form/validate.js"></script>
 
-@* <script src="https://www.google.com/recaptcha/api.js?render=@ReCaptchaConfig.Value.SiteKey"></script> *@
+<script>
+    document.getElementById("submitBtn").onclick = function (e) {
+        e.preventDefault();
+        grecaptcha.execute('6Ld6BX4qAAAAAMtMDsGsn1t8ygSITotzdu7U5Ore', { action: 'submit' }).then(function (token) {
+            document.getElementById("recaptchaToken").value = token;  // "token" yerine "recaptchaToken"
+            document.getElementById("contactForm").submit();
+        });
+    };
+</script>

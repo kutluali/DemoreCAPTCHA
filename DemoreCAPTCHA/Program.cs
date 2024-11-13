@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MySite.Services;
+using Owl.reCAPTCHA;
 
 internal class Program
 {
@@ -34,12 +35,20 @@ internal class Program
         // Add services to the container.
         builder.Services.AddControllersWithViews();
 
+        builder.Services.AddreCAPTCHAV3(options =>
+        {
+            options.SiteKey = "6Ld6BX4qAAAAAMtMDsGsn1t8ygSITotzdu7U5Ore";
+            options.SiteSecret = "6Ld6BX4qAAAAACHmUjJyvDsTYbwPnBO7ZhQLzIJM";
+        });
+
+
         builder.Services.ConfigureApplicationCookie(x =>
         {
             x.LoginPath = "/Account/Login";
         });
 
         var app = builder.Build();
+
 
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())

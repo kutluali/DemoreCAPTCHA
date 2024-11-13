@@ -18,7 +18,7 @@ namespace DemoreCAPTCHA.DAL.Entities
 
         public bool IsRead { get; set; } = false;
 
-        //[Required(ErrorMessage = "reCAPTCHA doğrulaması gereklidir.")]
-        //public string RecaptchaToken { get; set; }
+        [Required(ErrorMessage = "reCAPTCHA doğrulaması gereklidir.")]
+        public string RecaptchaToken { get; set; }
     }
 }
