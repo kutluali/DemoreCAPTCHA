@@ -2,9 +2,9 @@
 
 namespace DemoreCAPTCHA.DAL.Entities
 {
-    public class ContactForm
+    public class ContactFormReCAPTCHA
     {
-        public int ContactFormId { get; set; }
+        public int ContactFormReCAPTCHAId { get; set; }
 
         public string Name { get; set; }
 
@@ -17,6 +17,8 @@ namespace DemoreCAPTCHA.DAL.Entities
         public DateTime SentDate { get; set; } = DateTime.Now;
 
         public bool IsRead { get; set; } = false;
-        
+
+        [Required(ErrorMessage = "reCAPTCHA doğrulaması gereklidir.")]
+        public string RecaptchaToken { get; set; }
     }
 }

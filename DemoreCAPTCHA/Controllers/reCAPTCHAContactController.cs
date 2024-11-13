@@ -1,42 +1,45 @@
 ﻿using DemoreCAPTCHA.DAL.Context;
 using DemoreCAPTCHA.DAL.Entities;
-using DemoreCAPTCHA.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Owl.reCAPTCHA;
 using Owl.reCAPTCHA.v3;
-using System.Diagnostics;
 
 namespace DemoreCAPTCHA.Controllers
 {
-    [AllowAnonymous]
-    public class HomeController : Controller
+    public class ContactController : Controller
     {
         private readonly reCAPTCHAContext _context;
+        private readonly IreCAPTCHASiteVerifyV3 _siteVerify;
 
-        public HomeController(reCAPTCHAContext context)
+        public ContactController(reCAPTCHAContext context, IreCAPTCHASiteVerifyV3 siteVerify)
         {
             _context = context;
+            _siteVerify = siteVerify;
         }
-
         public IActionResult Index()
         {
             return View();
         }
-        public PartialViewResult ContactForm()
-        {
-            return PartialView();
-        }
 
         [HttpPost]
-        public IActionResult ContactForm(ContactForm model)
+        public async Task<IActionResult> Index(ContactFormReCAPTCHA model)
         {
             if (ModelState.IsValid)
             {
+                var response = await _siteVerify.Verify(new reCAPTCHASiteVerifyRequest
+                {
+                    Response = model.RecaptchaToken,
+                    RemoteIp = HttpContext.Connection.RemoteIpAddress.ToString()
+                });
+
+                if (!response.Success || response.Score < 0.5)
+                {
+                    return Json(new { success = false, errorMessage = "reCAPTCHA doğrulaması başarısız." });
+                }
+
                 try
                 {
-                    _context.ContactForms.Add(model);
+                    _context.ContactFormReCAPTCHAS.Add(model);
                     _context.SaveChanges();
                     return Json(new { success = true, message = "Mesajınız başarıyla gönderildi." });
                 }

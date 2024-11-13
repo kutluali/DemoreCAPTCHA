@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DemoreCAPTCHA.Migrations
 {
     [DbContext(typeof(reCAPTCHAContext))]
-    [Migration("20241108142328_initial")]
-    partial class initial
+    [Migration("20241113232010_create")]
+    partial class create
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,6 +164,45 @@ namespace DemoreCAPTCHA.Migrations
                     b.HasKey("ContactFormId");
 
                     b.ToTable("ContactForms");
+                });
+
+            modelBuilder.Entity("DemoreCAPTCHA.DAL.Entities.ContactFormReCAPTCHA", b =>
+                {
+                    b.Property<int>("ContactFormReCAPTCHAId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContactFormReCAPTCHAId"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RecaptchaToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ContactFormReCAPTCHAId");
+
+                    b.ToTable("ContactFormReCAPTCHAS");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

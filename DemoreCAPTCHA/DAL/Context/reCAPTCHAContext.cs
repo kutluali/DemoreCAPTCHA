@@ -12,6 +12,7 @@ namespace DemoreCAPTCHA.DAL.Context
         }
 
         public DbSet<ContactForm> ContactForms { get; set; }
-
+        public DbSet<ContactFormReCAPTCHA> ContactFormReCAPTCHAS { get; set; }
+        
     }
 }
